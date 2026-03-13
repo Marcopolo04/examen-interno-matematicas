@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Examen Tipo Ceneval - Matemáticas (48 preguntas)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+  body {font-family: Arial, sans-serif; background:#f0f2f5; margin:0; padding:20px;}
+  .container {max-width:900px; margin:auto; background:white; padding:30px; border-radius:12px; box-shadow:0 4px 20px rgba(0,0,0,0.1);}
+  h1 {text-align:center; color:#1a73e8;}
+  .timer {text-align:center; font-size:24px; font-weight:bold; color:#d32f2f;}
+  .question {margin:30px 0;}
+  .options label {display:block; margin:12px 0; padding:12px; border:1px solid #ddd; border-radius:8px; cursor:pointer;}
+  .options label:hover {background:#f1f3f4;}
+  button {padding:12px 30px; font-size:16px; margin:10px;}
+  .nav {display:flex; justify-content:space-between; margin-top:20px;}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>EXAMEN TIPO CENEVAL<br><small>Matemáticas - 48 preguntas</small></h1>
+  <div class="timer" id="timer">Tiempo restante: 180:00</div>
+
+  <div id="startScreen">
+    <input type="text" id="nombre" placeholder="Nombre completo" style="width:100%; padding:12px; margin:10px 0;" required><br>
+    <input type="text" id="matricula" placeholder="Matrícula o ID" style="width:100%; padding:12px; margin:10px 0;" required><br>
+    <button onclick="startExam()" style="background:#1a73e8; color:white; width:100%;">INICIAR EXAMEN</button>
+  </div>
+
+  <div id="examScreen" style="display:none;">
+    <div id="questionNumber" style="text-align:center; font-weight:bold; margin-bottom:10px;"></div>
+    <div id="questionText" class="question"></div>
+    <div id="options" class="options"></div>
+    
+    <div class="nav">
+      <button onclick="prevQuestion()" id="btnPrev">← Anterior</button>
+      <button onclick="nextQuestion()" id="btnNext">Siguiente →</button>
+    </div>
+    <button onclick="finishExam()" style="background:#d32f2f; color:white; width:100%; margin-top:20px;">FINALIZAR EXAMEN</button>
+  </div>
+
+  <div id="resultsScreen" style="display:none; text-align:center;">
+    <h2>¡Examen terminado!</h2>
+    <h1 id="score"></h1>
+    <p id="percentage"></p>
+    <button onclick="sendToSheets()" style="background:#34a853; color:white; padding:15px 40px; font-size:18px;">ENVIAR RESULTADOS A GOOGLE SHEETS</button>
+  </div>
+</div>
+
+<script>
+// ==================== 48 PREGUNTAS (adaptadas directamente de los 9 bloques anteriores) ====================
+const questions = [
+  // Tema 1: Operaciones Algebraicas (1-5)
+  {q:"Simplifica: (5x²-3x+7)+(2x²+8x-4)-(x²-5x+9)", options:["6x²+10x-6","6x²+6x-6","7x²+10x-6","5x²+10x-6"], correct:0},
+  {q:"Factoriza: 49x²-64y²", options:["(7x-8y)(7x+8y)","(7x+8y)²","(49x-64y)","(7x-8y)²"], correct:0},
+  {q:"Simplifica: (2a⁻³b⁴)⁻² · (a⁵b⁻¹)³ / (4a⁻⁴b⁵)", options:["a²⁵/(16b¹⁶)","a²⁵/(4b¹⁶)","a²¹/(16b¹¹)","a²⁵/(16b¹¹)"], correct:0},
+  {q:"Divide: (2x³-5x²+8x-3) ÷ (x-2)", options:["2x²-x+6 + 9/(x-2)","2x²-x+6","2x²- x+4","2x³-5x²+8x-3"], correct:0},
+  {q:"Simplifica: ³√(54x⁶y⁹) - √(50x⁴y²)", options:["3x²y³√[3]{2} - 5x²y√2","3x³y³√2 - 5x²y√2","..."], correct:0},
+
+  // Tema 2: Función Cuadrática (6-10)
+  {q:"Raíces de x²-7x+12=0", options:["x=3,4","x=2,6","x=-3,-4","x=1,12"], correct:0},
+  {q:"Discriminante de 3x²+4x+5=0", options:["-44 (complejas)","16 (reales)","0 (doble)","36"], correct:0},
+  {q:"Vértice de -2x²+8x-5", options:["(2,3) máximo","(2,-3) mínimo","(-2,3)","(4,3)"], correct:0},
+  {q:"Resuelve √(x+5)+x=7", options:["x=4","x=11","x=2","x=6"], correct:0},
+  {q:"Área máxima rectángulo 120m malla (río)", options:["60m × 30m","120m²","1800m²","40×40"], correct:2},
+
+  // Tema 3: Recta (11-15)
+  {q:"Ecuación recta por (3,-2) pendiente 4", options:["y=4x-14","y=-4x+14","4x-y=14","y=4x+14"], correct:0},
+  {q:"Distancia punto (5,-1) a 3x-4y-10=0", options:["9/5","3","5","2"], correct:0},
+  {q:"Recta perpendicular a y=-3x+5 por (0,0)", options:["x-3y=0","3x+y=0","y=3x","x+3y=0"], correct:0},
+  {q:"Pendiente entre (4,7) y (-3,2)", options:["5/7","-5/7","7/5","1"], correct:0},
+  {q:"Familia de rectas por intersección x-2y+3=0 y 3x+y-7=0", options:["(1+3k)x+(k-2)y+(3-7k)=0","..."], correct:0},
+
+  // Tema 4: Circunferencia (16-20)
+  {q:"Centro y radio de x²+y²-6x+4y-12=0", options:["(3,-2), r=5","(6,4), r=√12","(-3,2), r=5","(3,2), r=5"], correct:0},
+  {q:"Punto (5,3) respecto a x²+y²-4x-6y-12=0", options:["Dentro","Sobre","Fuera","No pertenece"], correct:0},
+  {q:"Tangente condición para x²+y²-2x+4y+k=0 y x-3y+5=0", options:["k=-42/5","k=0","k=5","k=-8"], correct:0},
+  {q:"Circunferencia por (0,0),(6,0),(3,3√3)", options:["(x-3)²+(y+√3)²=12","..."], correct:0},
+  {q:"Posición relativa C1:(x-4)²+(y-1)²=25 y C2:(x-2)²+(y+3)²=25", options:["Secantes","Tangentes","Una dentro","Exteriores"], correct:0},
+
+  // Tema 5: Parábola (21-25)
+  {q:"Ecuación y=½x² (pasa por (4,8))", options:["y=½x²","y=x²","y=2x²","y=¼x²"], correct:0},
+  {q:"Foco de y²=12x", options:["(3,0)","(0,3)","(-3,0)","(6,0)"], correct:0},
+  {q:"Forma vértice de y=-3x²+12x-7", options:["-3(x-2)²+5","..."], correct:0},
+  {q:"Parábola foco (0,4) directriz y=-4", options:["x
+²=16y","y²=16x","x²=8y","y=16x²"], correct:0},
+  {q:"Valor k para tangencia y=x
+² y y=4x+k", options:["k=-4","k=0","k=4","k=-8"], correct:0},
+
+  // Tema 6: Ecuación General 2° Grado (26-30)
+  {q:"Clasificación de x
+²+4y²-8x+16y-16=0", options:["Elipse","Hipérbola","Parábola","Circunferencia"], correct:0},
+  {q:"Forma canónica 9x²+4y
+²-18x+16y-11=0", options:["((x-1)²)/4 + ((y+2) ²)/9 =1","..."], correct:0},
+  {q:"Discriminante B²-4AC para 4x²-9y²+...=0", options:["Positivo → hipérbola","Negativo","Cero"], correct:0},
+  {q:"Rotación para x²+xy+y
+²-4x+2y=0", options:["θ=45°","30°","60°","0°"], correct:0},
+  {q:"Ecuación degenerada (x-y)²=0", options:["Dos rectas coincidentes","Elipse degenerada","Nada"], correct:0},
+
+  // Tema 7: Funciones Variables (31-35)
+  {q:"Dominio f(x)=√(4-x²)", options:["[-2,2]","(-∞,∞)","[0,2]","(-2,2)"], correct:0},
+  {q:"f(x)=2x+3, g(x)=x²-1 → (f∘g)(x)", options:["2x²+1","2x²+5","x²+2","2x+2"], correct:0},
+  {q:"Función par: x⁴-3x²+5", options:["Par","Impar","Ninguna"], correct:0},
+  {q:"Inversa de f(x)=5x-2", options:["(x+2)/5","5x+2","x/5-2","(x-2)/5"], correct:0},
+  {q:"Resuelve 3^{2x-1}=27^{x+2}·9^{-x}", options:["x=7","x=3","x=1","x=0"], correct:0},
+
+  // Tema 8: Derivadas (36-41)
+  {q:"f'(1) de f(x)=x
+²+3x por definición", options:["5","3","6","4"], correct:0},
+  {q:"Derivada de (4x³-5x+2)⁷", options:["7(4x³-5x+2)⁶(12x
+²-5)","..."], correct:0},
+  {q:"Tangente a y=x³-6x+2 en x=1", options:["y=-3x","y=3x","y=x-3","y=-x"], correct:0},
+  {q:"Velocidad en t=2 de s(t)=t³-9t²+24t", options:["0 m/s","6 m/s","12 m/s","-6"], correct:0},
+  {q:"Derivada implícita x²y + y³ = 4x+2y", options:["(4-2xy)/(x²+3y²-2)","..."], correct:0},
+  {q:"Puntos de inflexión f(x)=x⁴-6x³+9x²", options:["x=(3±√3)/2","x=0,3","x=2"], correct:0},
+
+  // Tema 9: Integrales (42-48)
+  {q:"∫(5x⁴-3x²+7)dx", options:["x⁵-x³+7x+C","..."], correct:0},
+  {q:"∫_{-1}^2 (3x²-4x+1)dx", options:["6","4","8","2"], correct:0},
+  {q:"Área bajo y=x² de 0 a 3", options:["9","27","3","6"], correct:0},
+  {q:"∫4x(2x
+²+5)⁶ dx", options:["(2x²+5)⁷/7 +C","..."], correct:0},
+  {q:"∫x e^{2x} dx", options:["e^{2x}(2x-1)/4 +C","..."], correct:0},
+  {q:"∫_0^2 (2x - x²) dx (área entre curvas)", options:["4/3","2","8/3","1"], correct:0},
+  {q:"¿Converge ∫_1^∞ 1/x² dx?", options:["Sí, valor 1","No converge","Sí, valor ∞"], correct:0}
+];
+
+// ==================== LÓGICA DEL EXAMEN ====================
+let current = 0;
+let answers = new Array(questions.length).fill(null);
+let timeLeft = 180 * 60;
+let timerInterval;
+
+function startExam() {
+  const nombre = document.getElementById("nombre").value.trim();
+  const matricula = document.getElementById("matricula").value.trim();
+  if (!nombre || !matricula) return alert("Ingresa nombre y matrícula");
+
+  document.getElementById("startScreen").style.display = "none";
+  document.getElementById("examScreen").style.display = "block";
+  
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    const min = Math.floor(timeLeft/60);
+    const sec = timeLeft % 60;
+    document.getElementById("timer").textContent = `Tiempo restante: ${min}:${sec<10?"0":""}${sec}`;
+    if (timeLeft <= 0) finishExam();
+  }, 1000);
+
+  loadQuestion();
+}
+
+function loadQuestion() {
+  document.getElementById("questionNumber").textContent = `Pregunta ${current+1} de 48`;
+  document.getElementById("questionText").innerHTML = `<strong>${questions[current].q}</strong>`;
+  
+  let opts = "";
+  questions[current].options.forEach((opt,i) => {
+    opts += `<label><input type="radio" name="q" value="${i}" ${answers[current]===i?"checked":""} onchange="answers[${current}]=${i}"> ${String.fromCharCode(65+i)}) ${opt}</label>`;
+  });
+  document.getElementById("options").innerHTML = opts;
+}
+
+function nextQuestion() {
+  if (current < questions.length-1) {
+    current++;
+    loadQuestion();
+  }
+}
+
+function prevQuestion() {
+  if (current > 0) {
+    current--;
+    loadQuestion();
+  }
+}
+
+function finishExam() {
+  clearInterval(timerInterval);
+  document.getElementById("examScreen").style.display = "none";
+  document.getElementById("resultsScreen").style.display = "block";
+  
+  let correct = 0;
+  answers.forEach((ans,i) => {
+    if (ans === questions[i].correct) correct++;
+  });
+  
+  const porcentaje = Math.round((correct/48)*100);
+  document.getElementById("score").innerHTML = `Puntaje: ${correct} / 48`;
+  document.getElementById("percentage").innerHTML = `Porcentaje: <strong>${porcentaje}%</strong>`;
+  
+  // Guardamos para envío
+  window.finalScore = correct;
+  window.finalPorcentaje = porcentaje;
+  window.finalAnswers = answers.map((a,i)=> a!==null ? String.fromCharCode(65+a) : "N/R").join(",");
+}
+
+// ==================== ENVÍO A GOOGLE SHEETS ====================
+function sendToSheets() {
+  const nombre = document.getElementById("nombre").value;
+  const matricula = document.getElementById("matricula").value;
+  
+  const payload = {
+    nombre: nombre,
+    matricula: matricula,
+    puntaje: window.finalScore,
+    porcentaje: window.finalPorcentaje,
+    respuestas: window.finalAnswers
+  };
+
+  const scriptURL = "PEGA_AQUÍ_LA_URL_DE_TU_APPS_SCRIPT";   // ← REEMPLAZA CON TU URL
+
+  fetch(scriptURL, {
+    method: "POST",
+    body: new URLSearchParams({ data: JSON.stringify(payload) })
+  })
+  .then(() => alert("✅ Resultados enviados correctamente a Google Sheets"))
+  .catch(() => alert("Error al enviar. Revisa la URL del Apps Script."));
+}
+</script>
+</body>
+</html>
