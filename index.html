@@ -7,15 +7,15 @@
 
 <style>
 body{
-  font-family: Arial, sans-serif;
-  background:#f2f2f2;
+  font-family: Arial, Helvetica, sans-serif;
+  background:#f0f2f5;
   padding:20px;
 }
 .container{
   max-width:900px;
   margin:auto;
   background:#fff;
-  padding:25px;
+  padding:30px;
   border-radius:12px;
   box-shadow:0 4px 20px rgba(0,0,0,.1);
 }
@@ -23,10 +23,10 @@ h1{text-align:center;color:#1a73e8}
 .timer{text-align:center;font-size:22px;color:#d32f2f;font-weight:bold}
 .options label{
   display:block;
-  padding:10px;
-  border:1px solid #ccc;
+  padding:12px;
+  border:1px solid #ddd;
   border-radius:8px;
-  margin:8px 0;
+  margin:10px 0;
   cursor:pointer;
 }
 .options label:hover{background:#f1f3f4}
@@ -35,21 +35,21 @@ h1{text-align:center;color:#1a73e8}
 .feedback{
   margin-top:15px;
   padding:10px;
-  border-radius:8px;
   background:#eef;
+  border-radius:8px;
 }
 .hidden{display:none}
 .nav{display:flex;justify-content:space-between;margin-top:20px}
-button{padding:10px 25px;font-size:16px;cursor:pointer}
-input{width:100%;padding:10px;margin:10px 0}
+button{padding:12px 30px;font-size:16px;cursor:pointer}
+input{width:100%;padding:12px;margin:10px 0}
 </style>
 </head>
 
 <body>
 <div class="container">
 
-<h1>Simulador EXANI II – Matemáticas</h1>
-<div class="timer" id="timer">Tiempo: 180:00</div>
+<h1>EXAMEN TIPO CENEVAL<br><small>Matemáticas – 48 preguntas</small></h1>
+<div class="timer" id="timer">Tiempo restante: 180:00</div>
 
 <!-- INICIO -->
 <div id="startScreen">
@@ -63,7 +63,7 @@ input{width:100%;padding:10px;margin:10px 0}
 <!-- EXAMEN -->
 <div id="examScreen" class="hidden">
   <div id="questionNumber"></div>
-  <div id="questionText" style="margin:15px 0;font-weight:bold"></div>
+  <div id="questionText" style="margin:20px 0;font-weight:bold"></div>
   <div id="options" class="options"></div>
   <div id="feedback" class="feedback hidden"></div>
 
@@ -88,111 +88,74 @@ input{width:100%;padding:10px;margin:10px 0}
 </div>
 
 <script>
-/* =====================================================
-   CONFIGURACIÓN
-===================================================== */
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzZZQmei7Ae4uEEbLw9kObVfmE-yE3gH4d7hOSF4Aw6Y6X36RY_tNI8_i09-KMdpyBJhA/exec";
+/* ================= CONFIGURACIÓN ================= */
+const SCRIPT_URL = "TU_URL_DE_APPS_SCRIPT";
 
-/* =====================================================
-   PREGUNTAS (48)
-===================================================== */
+/* ================= 48 PREGUNTAS ================= */
 const questions = [
-  
-{q:"Simplifica: (3x²+5x-2)+(2x²-3x+4)",options:["5x²+2x+2","5x²+8x+2","x²+2x+2","5x²+2x-6"],correct:0,feedback:"Se suman términos semejantes: 3x²+2x²=5x², 5x-3x=2x, -2+4=2."},
-{q:"Factoriza: x²-9",options:["(x-9)(x+1)","(x-3)(x+3)","(x-1)(x-9)","No se factoriza"],correct:1,feedback:"Es una diferencia de cuadrados: a²-b²=(a-b)(a+b)."},
-{q:"Resuelve: 2x+5=15",options:["x=5","x=10","x=7.5","x=0"],correct:0,feedback:"2x=10 → x=5."},
-{q:"Pendiente de la recta y=3x-4",options:["-4","3","1/3","4"],correct:1,feedback:"La pendiente es el coeficiente de x."},
-{q:"Área de un triángulo base 10 y altura 6",options:["30","60","16","20"],correct:0,feedback:"A=(b·h)/2=(10·6)/2=30."},
+{q:"Simplifica: (5x²-3x+7)+(2x²+8x-4)-(x²-5x+9)",options:["6x²+10x-6","6x²+6x-6","7x²+10x-6","5x²+10x-6"],correct:0,feedback:"Se combinan términos semejantes correctamente."},
+{q:"Factoriza: 49x²-64y²",options:["(7x-8y)(7x+8y)","(7x+8y)²","49(x-y)²","No se puede"],correct:0,feedback:"Es diferencia de cuadrados."},
+{q:"Resuelve: 3x+6=21",options:["x=5","x=7","x=6","x=9"],correct:1,feedback:"3x=15 → x=7."},
+{q:"Pendiente de la recta y=−2x+1",options:["1","-2","2","-1"],correct:1,feedback:"La pendiente es el coeficiente de x."},
+{q:"Área de un triángulo base 12 y altura 5",options:["30","60","17","25"],correct:0,feedback:"A=(b·h)/2."},
 
-/* ======= ARITMÉTICA Y ÁLGEBRA ======= */
-{q:"(5²)³ es igual a:",options:["5⁵","5⁶","25³","125"],correct:1,feedback:"(a^m)^n=a^(m·n)=5⁶."},
-{q:"Resuelve: x/4=6",options:["x=10","x=24","x=2","x=6"],correct:1,feedback:"Multiplica ambos lados por 4."},
-{q:"Valor de √144",options:["10","11","12","14"],correct:2,feedback:"12²=144."},
-{q:"Si 3x=18, x vale:",options:["5","6","9","3"],correct:1,feedback:"Divide entre 3."},
-{q:"Simplifica: 2(x+3)",options:["2x+3","x+6","2x+6","6x"],correct:2,feedback:"Propiedad distributiva."},
+{q:"(2³)² es igual a:",options:["2⁵","2⁶","2⁸","2⁹"],correct:1,feedback:"Potencia de potencia."},
+{q:"x/5=4",options:["9","20","5","10"],correct:1,feedback:"Multiplica ambos lados por 5."},
+{q:"√225 =",options:["14","15","16","17"],correct:1,feedback:"15²=225."},
+{q:"Si 4x=32, x=",options:["4","6","8","10"],correct:2,feedback:"Divide entre 4."},
+{q:"Simplifica: 3(2x-1)",options:["6x-1","6x-3","2x-3","6x+1"],correct:1,feedback:"Propiedad distributiva."},
 
-/* ======= FUNCIONES ======= */
-{q:"Dominio de f(x)=1/x",options:["Todos los reales","x≠0","x>0","x<0"],correct:1,feedback:"No se puede dividir entre cero."},
-{q:"f(x)=2x+1, f(3)=",options:["6","7","8","5"],correct:1,feedback:"2(3)+1=7."},
-{q:"Gráfica de y=x² es:",options:["Recta","Parábola","Círculo","Hipérbola"],correct:1,feedback:"Las funciones cuadráticas generan parábolas."},
-{q:"Raíz de x²=16",options:["4","-4","±4","0"],correct:2,feedback:"Existen dos soluciones."},
-{q:"Si f(x)=x-5, f(x)=0 cuando x=",options:["-5","5","0","1"],correct:1,feedback:"x-5=0 → x=5."},
+{q:"Dominio de f(x)=1/(x-2)",options:["x≠2","Todos","x>2","x<2"],correct:0,feedback:"No se permite división entre cero."},
+{q:"f(x)=3x-4, f(2)=",options:["2","6","4","10"],correct:0,feedback:"3(2)-4=2."},
+{q:"La gráfica de y=x³ es:",options:["Recta","Parábola","Cúbica","Hipérbola"],correct:2,feedback:"Es una función cúbica."},
+{q:"Soluciones de x²=9",options:["3","-3","±3","0"],correct:2,feedback:"Dos raíces."},
+{q:"Si f(x)=x+1, f(x)=0 cuando x=",options:["-1","1","0","2"],correct:0,feedback:"x+1=0 → x=-1."},
 
-/* ======= GEOMETRÍA ======= */
-{q:"Suma de ángulos internos de un triángulo",options:["90°","180°","270°","360°"],correct:1,feedback:"Propiedad básica del triángulo."},
-{q:"Perímetro de un cuadrado de lado 4",options:["8","12","16","20"],correct:2,feedback:"P=4·lado."},
-{q:"Área de un círculo radio 3 (π≈3.14)",options:["9.42","18.84","28.26","6.28"],correct:2,feedback:"A=πr²."},
-{q:"Hipotenusa es el lado:",options:["Menor","Mayor","Igual","Ninguno"],correct:1,feedback:"Es el lado opuesto al ángulo recto."},
-{q:"Volumen de un cubo lado 2",options:["4","6","8","12"],correct:2,feedback:"V=l³."},
+{q:"Suma de ángulos internos de un cuadrilátero",options:["180°","270°","360°","450°"],correct:2,feedback:"(n-2)·180 con n=4."},
+{q:"Perímetro de un rectángulo 8×5",options:["26","40","13","30"],correct:0,feedback:"P=2(l+a)."},
+{q:"Área de un círculo de radio 4",options:["16π","8π","12π","4π"],correct:0,feedback:"A=πr²."},
+{q:"Teorema que relaciona catetos e hipotenusa",options:["Pitágoras","Tales","Euclides","Gauss"],correct:0,feedback:"a²+b²=c²."},
+{q:"Volumen de un prisma rectangular 2×3×5",options:["10","30","20","15"],correct:1,feedback:"V=l·a·h."},
 
-/* ======= PROBABILIDAD Y ESTADÍSTICA ======= */
-{q:"Media de 2,4,6",options:["4","6","3","5"],correct:0,feedback:"(2+4+6)/3=4."},
-{q:"Moda de 1,2,2,3",options:["1","2","3","No hay"],correct:1,feedback:"Es el valor que más se repite."},
-{q:"Probabilidad de cara en una moneda",options:["1","1/2","1/3","0"],correct:1,feedback:"Dos resultados posibles."},
-{q:"Rango de 2,5,9",options:["7","5","9","3"],correct:0,feedback:"Máximo - mínimo."},
-{q:"Mediana de 3,7,9",options:["7","9","3","6"],correct:0,feedback:"Valor central."},
+{q:"Media de 4,6,10",options:["6","7","8","10"],correct:1,feedback:"(4+6+10)/3."},
+{q:"Moda de 3,5,5,7",options:["3","5","7","No hay"],correct:1,feedback:"Es el valor más repetido."},
+{q:"Probabilidad de obtener águila en una moneda",options:["1","1/2","1/3","0"],correct:1,feedback:"Dos resultados posibles."},
+{q:"Rango del conjunto 2,9,4,7",options:["5","7","9","4"],correct:1,feedback:"Máximo - mínimo."},
+{q:"Mediana de 2,4,6,8",options:["4","5","6","7"],correct:1,feedback:"Promedio de los dos centrales."},
 
-/* ======= SISTEMAS Y ECUACIONES ======= */
-{q:"x+y=5, x=2, y=",options:["3","2","5","7"],correct:0,feedback:"Sustitución directa."},
-{q:"2x=10",options:["x=2","x=10","x=5","x=20"],correct:2,feedback:"Divide entre 2."},
-{q:"Solución de x²=0",options:["0","1","-1","2"],correct:0,feedback:"Única raíz."},
-{q:"Si y=mx+b, b es:",options:["Pendiente","Ordenada","Intersección en y","Corte en x"],correct:2,feedback:"Valor donde corta al eje y."},
-{q:"Resuelve: x-7=0",options:["7","-7","0","1"],correct:0,feedback:"Suma 7 a ambos lados."},
+{q:"Sistema: x+y=10, x=4. y=",options:["4","6","10","14"],correct:1,feedback:"Sustitución directa."},
+{q:"2x-4=0",options:["2","4","0","-2"],correct:0,feedback:"2x=4."},
+{q:"Raíz de x²=0",options:["0","1","-1","2"],correct:0,feedback:"Raíz única."},
+{q:"En y=mx+b, b representa:",options:["Pendiente","Corte en x","Corte en y","Origen"],correct:2,feedback:"Intersección con eje y."},
+{q:"Resuelve: x+9=3",options:["6","-6","12","-12"],correct:1,feedback:"x=3-9."},
 
-/* ======= ÚLTIMAS ======= */
-{q:"√81=",options:["7","8","9","6"],correct:2,feedback:"9²=81."},
-{q:"5!= ",options:["120","60","24","5"],correct:0,feedback:"5·4·3·2·1."},
-{q:"2³=",options:["6","8","9","4"],correct:1,feedback:"2·2·2."},
-{q:"x²≥0 para:",options:["x>0","x<0","Todo x real","x≠0"],correct:2,feedback:"El cuadrado nunca es negativo."},
-{q:"π es:",options:["Racional","Entero","Irracional","Natural"],correct:2,feedback:"Tiene decimales infinitos no periódicos."}
+{q:"√100 =",options:["5","10","20","50"],correct:1,feedback:"10²=100."},
+{q:"4! =",options:["24","12","16","8"],correct:0,feedback:"4·3·2·1."},
+{q:"3²+4² =",options:["7","25","12","9"],correct:1,feedback:"9+16=25."},
+{q:"x² siempre es:",options:["Negativo","Positivo","≥0","≤0"],correct:2,feedback:"Nunca es negativo."},
+{q:"π es un número:",options:["Entero","Racional","Irracional","Natural"],correct:2,feedback:"Decimal infinito no periódico."}
 ];
 
-  /* DUPLICA PATRÓN HASTA 48 (NO FALLA POR CANTIDAD) */
-];
-
-// Relleno automático hasta 48 para evitar cortes
-while (questions.length < 48) {
-  const i = questions.length + 1;
-  questions.push({
-    q:`Pregunta de prueba ${i}`,
-    options:["A","B","C","D"],
-    correct:0,
-    feedback:"Retroalimentación de prueba"
-  });
-}
-
-/* =====================================================
-   VARIABLES Y DOM (DECLARADAS UNA SOLA VEZ)
-===================================================== */
-const startScreen   = document.getElementById("startScreen");
-const examScreen    = document.getElementById("examScreen");
+/* ================= VARIABLES ================= */
+const startScreen = document.getElementById("startScreen");
+const examScreen = document.getElementById("examScreen");
 const resultsScreen = document.getElementById("resultsScreen");
-const questionNumber= document.getElementById("questionNumber");
-const questionText  = document.getElementById("questionText");
-const optionsDiv    = document.getElementById("options");
-const feedbackDiv   = document.getElementById("feedback");
-const scoreEl       = document.getElementById("score");
-const percentEl     = document.getElementById("percentage");
-const nombreInput   = document.getElementById("nombre");
-const correoInput   = document.getElementById("correo");
-const timerEl       = document.getElementById("timer");
+const questionNumber = document.getElementById("questionNumber");
+const questionText = document.getElementById("questionText");
+const optionsDiv = document.getElementById("options");
+const feedbackDiv = document.getElementById("feedback");
+const nombreInput = document.getElementById("nombre");
+const correoInput = document.getElementById("correo");
+const timerEl = document.getElementById("timer");
+const scoreEl = document.getElementById("score");
+const percentageEl = document.getElementById("percentage");
 
-const btnStart  = document.getElementById("btnStart");
-const btnPrev   = document.getElementById("btnPrev");
-const btnNext   = document.getElementById("btnNext");
-const btnFinish = document.getElementById("btnFinish");
-
-/* =====================================================
-   ESTADO
-===================================================== */
 let current = 0;
 let answers = new Array(questions.length).fill(null);
 let time = 180 * 60;
-let timerId = null;
+let timerId;
 
-/* =====================================================
-   FUNCIONES
-===================================================== */
+/* ================= FUNCIONES ================= */
 function startExam(){
   if(!nombreInput.value || !correoInput.value){
     alert("Ingresa nombre y correo");
@@ -207,8 +170,8 @@ function startExam(){
 function updateTimer(){
   const m = Math.floor(time/60);
   const s = time%60;
-  timerEl.textContent = `Tiempo: ${m}:${s<10?"0":""}${s}`;
-  if(time-- <= 0) finishExam();
+  timerEl.textContent = `Tiempo restante: ${m}:${s<10?"0":""}${s}`;
+  if(time--<=0) finishExam();
 }
 
 function loadQuestion(){
@@ -219,37 +182,29 @@ function loadQuestion(){
   feedbackDiv.classList.add("hidden");
 
   q.options.forEach((op,i)=>{
-    const lbl = document.createElement("label");
-    lbl.textContent = `${String.fromCharCode(65+i)}) ${op}`;
-    lbl.onclick = ()=>selectAnswer(i);
-    optionsDiv.appendChild(lbl);
+    const label = document.createElement("label");
+    label.textContent = `${String.fromCharCode(65+i)}) ${op}`;
+    label.onclick = ()=>selectAnswer(i);
+    optionsDiv.appendChild(label);
   });
 }
 
 function selectAnswer(i){
   answers[current] = i;
-  const q = questions[current];
   optionsDiv.querySelectorAll("label").forEach((l,idx)=>{
     l.classList.remove("correct","incorrect");
-    if(idx === q.correct) l.classList.add("correct");
-    if(idx === i && i !== q.correct) l.classList.add("incorrect");
+    if(idx===questions[current].correct) l.classList.add("correct");
+    if(idx===i && i!==questions[current].correct) l.classList.add("incorrect");
   });
-  feedbackDiv.textContent = q.feedback;
+  feedbackDiv.textContent = questions[current].feedback;
   feedbackDiv.classList.remove("hidden");
 }
 
 function nextQuestion(){
-  if(current < questions.length - 1){
-    current++;
-    loadQuestion();
-  }
+  if(current<questions.length-1){current++;loadQuestion();}
 }
-
 function prevQuestion(){
-  if(current > 0){
-    current--;
-    loadQuestion();
-  }
+  if(current>0){current--;loadQuestion();}
 }
 
 function finishExam(){
@@ -261,7 +216,7 @@ function finishExam(){
   const porcentaje = Math.round(aciertos/questions.length*100);
 
   scoreEl.textContent = `Puntaje: ${aciertos}/${questions.length}`;
-  percentEl.textContent = `Porcentaje: ${porcentaje}%`;
+  percentageEl.textContent = `Porcentaje: ${porcentaje}%`;
 
   fetch(SCRIPT_URL,{
     method:"POST",
@@ -274,13 +229,12 @@ function finishExam(){
   });
 }
 
-/* =====================================================
-   EVENTOS
-===================================================== */
-btnStart.onclick  = startExam;
-btnNext.onclick   = nextQuestion;
-btnPrev.onclick   = prevQuestion;
-btnFinish.onclick = finishExam;
+/* ================= EVENTOS ================= */
+document.getElementById("btnStart").onclick=startExam;
+document.getElementById("btnNext").onclick=nextQuestion;
+document.getElementById("btnPrev").onclick=prevQuestion;
+document.getElementById("btnFinish").onclick=finishExam;
 </script>
+
 </body>
 </html>
