@@ -1,236 +1,186 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Examen Tipo CENEVAL - Matemáticas (48 preguntas)</title>
-  <style>
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f0f2f5;
-      margin: 0;
-      padding: 20px;
-    }
-    .container {
-      max-width: 900px;
-      margin: auto;
-      background: white;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-    }
-    h1 { text-align: center; color: #1a73e8; }
-    .timer { text-align: center; font-size: 24px; font-weight: bold; color: #d32f2f; margin: 15px 0; }
-    .question { margin: 30px 0; }
-    .options label {
-      display: block;
-      margin: 12px 0;
-      padding: 12px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-    .options label:hover { background: #f1f3f4; }
-    button {
-      padding: 12px 30px;
-      font-size: 16px;
-      margin: 10px;
-      cursor: pointer;
-    }
-    .nav { display: flex; justify-content: space-between; margin-top: 20px; }
-    #startScreen input {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      box-sizing: border-box;
-    }
-    #resultsScreen h1 { color: #34a853; }
-    .hidden { display: none; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Examen Tipo CENEVAL - Matemáticas</title>
+
+<style>
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f0f2f5;
+  padding: 20px;
+}
+.container {
+  max-width: 900px;
+  margin: auto;
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+h1 { text-align: center; color: #1a73e8; }
+.timer { text-align: center; font-size: 24px; font-weight: bold; color: #d32f2f; }
+.question { margin: 30px 0; }
+.options label {
+  display: block;
+  margin: 12px 0;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.options label:hover { background: #f1f3f4; }
+button {
+  padding: 12px 30px;
+  font-size: 16px;
+  cursor: pointer;
+}
+.nav { display: flex; justify-content: space-between; margin-top: 20px; }
+.hidden { display: none; }
+</style>
 </head>
+
 <body>
 
 <div class="container">
-  <h1>EXAMEN TIPO CENEVAL<br><small>Matemáticas - 48 preguntas</small></h1>
-  <div class="timer" id="timer">Tiempo restante: 180:00</div>
+<h1>EXAMEN TIPO CENEVAL<br><small>Matemáticas</small></h1>
+<div class="timer" id="timer"></div>
 
-  <div id="startScreen">
-    <input type="text" id="nombre" placeholder="Nombre completo" required>
-    <input type="text" id="matricula" placeholder="correo" required>
-    <button onclick="startExam()" style="background:#1a73e8; color:white; width:100%; border:none; padding:15px; font-size:18px; cursor:pointer;">
-      INICIAR EXAMEN
-    </button>
+<div id="startScreen">
+  <input id="nombre" placeholder="Nombre completo">
+  <input id="matricula" placeholder="Correo">
+  <button onclick="startExam()" style="width:100%;background:#1a73e8;color:white;">INICIAR EXAMEN</button>
+</div>
+
+<div id="examScreen" class="hidden">
+  <div id="questionNumber"></div>
+  <div id="questionText" class="question"></div>
+  <div id="options" class="options"></div>
+
+  <div class="nav">
+    <button onclick="prevQuestion()">← Anterior</button>
+    <button onclick="nextQuestion()">Siguiente →</button>
   </div>
 
-  <div id="examScreen" class="hidden">
-    <div id="questionNumber" style="text-align:center; font-weight:bold; margin-bottom:10px;"></div>
-    <div id="questionText" class="question"></div>
-    <div id="options" class="options"></div>
-    
-    <div class="nav">
-      <button onclick="prevQuestion()" id="btnPrev">← Anterior</button>
-      <button onclick="nextQuestion()" id="btnNext">Siguiente →</button>
-    </div>
-    <button onclick="finishExam()" style="background:#d32f2f; color:white; width:100%; margin-top:20px; border:none; padding:15px; font-size:18px; cursor:pointer;">
-      FINALIZAR EXAMEN
-    </button>
-  </div>
+  <button onclick="finishExam()" style="background:#d32f2f;color:white;width:100%;margin-top:20px;">
+    FINALIZAR EXAMEN
+  </button>
+</div>
 
-  <div id="resultsScreen" class="hidden" style="text-align:center;">
-    <h2>¡Examen terminado!</h2>
-    <h1 id="score"></h1>
-    <p id="percentage"></p>
-    <div id="enviando" style="color:#666; margin:20px 0; display:none;">Enviando resultados a Google Sheets...</div>
-    <button onclick="sendToSheets()" id="btnEnviar" style="background:#34a853; color:white; padding:15px 40px; font-size:18px; border:none; cursor:pointer;">
-      ENVIAR RESULTADOS A GOOGLE SHEETS
-    </button>
-  </div>
+<div id="resultsScreen" class="hidden" style="text-align:center;">
+  <h2>¡Examen terminado!</h2>
+  <h1 id="score"></h1>
+  <p id="percentage"></p>
+  <button onclick="sendToSheets()" id="btnEnviar"
+    style="background:#34a853;color:white;">ENVIAR RESULTADOS</button>
+</div>
 </div>
 
 <script>
-// ==================== CONFIGURACIÓN ====================
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwvmwt4ZPVBUsdU3m-rnKEiH5S_lAmHGrVw1ULUcGLmrQhEf2wrrpsyVbN-yDYEaXHe/exec";  // ← REEMPLAZA CON TU URL REAL
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzj8XN-o_Vz3XTV99gShyyx4k6XO6KL15P2StEt0jPtI85uFXRE8IZsHg5NWza8Uh2JkQ/exec";
 
 const questions = [
-  // Aquí van las 48 preguntas (las copio resumidas para que quepa, pero usa la lista completa que te di antes)
-  // Tema 1 (1-5)
-  {q:"Simplifica: (5x²-3x+7)+(2x²+8x-4)-(x²-5x+9)", options:["6x²+10x-6","6x²+6x-6","7x²+10x-6","5x²+10x-6"], correct:0},
-  {q:"Factoriza: 49x²-64y²", options:["(7x-8y)(7x+8y)","(7x+8y)²","(49x-64y)","(7x-8y)²"], correct:0},
-  // ... (agrega las 46 restantes de la versión anterior)
-  // Para no hacer el mensaje eterno, copia el array completo de questions de mi respuesta anterior
-  // Si necesitas, te lo vuelvo a pegar limpio en el siguiente mensaje
+  {
+    q:"Simplifica: (5x²-3x+7)+(2x²+8x-4)-(x²-5x+9)",
+    options:["6x²+10x-6","6x²+6x-6","7x²+10x-6","5x²+10x-6"],
+    correct:0
+  },
+  {
+    q:"Factoriza: 49x²-64y²",
+    options:["(7x-8y)(7x+8y)","(7x+8y)²","49x-64y","(7x-8y)²"],
+    correct:0
+  }
+  // AGREGA AQUÍ LAS 48
 ];
 
-// Variables globales
 let currentQuestion = 0;
 let userAnswers = new Array(questions.length).fill(null);
-let timeLeft = 180 * 60; // 180 minutos en segundos
-let timerInterval;
-let userName = "";
-let userMatricula = "";
+let timeLeft = 180 * 60;
+let timer;
 
-// ==================== FUNCIONES ====================
-function startExam() {
-  userName = document.getElementById("nombre").value.trim();
-  userMatricula = document.getElementById("matricula").value.trim();
-
-  if (!userName || !userMatricula) {
-    alert("Por favor ingresa tu nombre y matrícula");
+function startExam(){
+  if(!nombre.value || !matricula.value){
+    alert("Completa tus datos");
     return;
   }
-
-  document.getElementById("startScreen").classList.add("hidden");
-  document.getElementById("examScreen").classList.remove("hidden");
-
-  timerInterval = setInterval(updateTimer, 1000);
+  startScreen.classList.add("hidden");
+  examScreen.classList.remove("hidden");
+  updateTimer();
+  timer = setInterval(updateTimer,1000);
   loadQuestion();
 }
 
-function updateTimer() {
-  timeLeft--;
-  const minutes = Math.floor(timeLeft / 60);
-  const seconds = timeLeft % 60;
-  document.getElementById("timer").textContent = 
-    `Tiempo restante: ${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
-
-  if (timeLeft <= 0) {
-    clearInterval(timerInterval);
+function updateTimer(){
+  let m = Math.floor(timeLeft/60);
+  let s = timeLeft%60;
+  timerEl.textContent = `Tiempo restante: ${m}:${s<10?"0":""}${s}`;
+  if(timeLeft<=0){
+    clearInterval(timer);
     finishExam();
   }
+  timeLeft--;
 }
+const timerEl=document.getElementById("timer");
 
-function loadQuestion() {
-  document.getElementById("questionNumber").textContent = 
-    `Pregunta ${currentQuestion + 1} de ${questions.length}`;
-
-  document.getElementById("questionText").innerHTML = `<strong>${questions[currentQuestion].q}</strong>`;
-
-  let html = "";
-  questions[currentQuestion].options.forEach((option, index) => {
-    html += `
-      <label>
-        <input type="radio" name="q${currentQuestion}" value="${index}" 
-               ${userAnswers[currentQuestion] === index ? "checked" : ""} 
-               onchange="saveAnswer(${currentQuestion}, ${index})">
-        ${String.fromCharCode(65 + index)}) ${option}
-      </label>`;
+function loadQuestion(){
+  questionNumber.textContent = `Pregunta ${currentQuestion+1} de ${questions.length}`;
+  questionText.innerHTML = `<strong>${questions[currentQuestion].q}</strong>`;
+  options.innerHTML = "";
+  questions[currentQuestion].options.forEach((op,i)=>{
+    options.innerHTML += `
+    <label>
+      <input type="radio" name="q" ${userAnswers[currentQuestion]===i?"checked":""}
+      onclick="saveAnswer(${i})">
+      ${String.fromCharCode(65+i)}) ${op}
+    </label>`;
   });
-  document.getElementById("options").innerHTML = html;
 }
 
-function saveAnswer(questionIndex, answerIndex) {
-  userAnswers[questionIndex] = answerIndex;
-}
+function saveAnswer(i){ userAnswers[currentQuestion]=i; }
 
-function nextQuestion() {
-  if (currentQuestion < questions.length - 1) {
+function nextQuestion(){
+  if(currentQuestion<questions.length-1){
     currentQuestion++;
     loadQuestion();
   }
 }
-
-function prevQuestion() {
-  if (currentQuestion > 0) {
+function prevQuestion(){
+  if(currentQuestion>0){
     currentQuestion--;
     loadQuestion();
   }
 }
 
-function finishExam() {
-  clearInterval(timerInterval);
-  document.getElementById("examScreen").classList.add("hidden");
-  document.getElementById("resultsScreen").classList.remove("hidden");
+function finishExam(){
+  clearInterval(timer);
+  examScreen.classList.add("hidden");
+  resultsScreen.classList.remove("hidden");
 
-  let correctCount = 0;
-  userAnswers.forEach((answer, index) => {
-    if (answer === questions[index].correct) correctCount++;
-  });
+  let aciertos=0;
+  userAnswers.forEach((a,i)=>{ if(a===questions[i].correct) aciertos++; });
 
-  const percentage = Math.round((correctCount / questions.length) * 100);
+  score.textContent = `Puntaje: ${aciertos}/${questions.length}`;
+  percentage.textContent = `Porcentaje: ${Math.round(aciertos/questions.length*100)}%`;
 
-  document.getElementById("score").innerHTML = `Puntaje: ${correctCount} / ${questions.length}`;
-  document.getElementById("percentage").innerHTML = `Porcentaje: <strong>${percentage}%</strong>`;
-
-  // Guardamos para el envío
   window.examResults = {
-    nombre: userName,
-    matricula: userMatricula,
-    puntaje: correctCount,
-    total: questions.length,
-    porcentaje: percentage,
-    respuestas: userAnswers.map(a => a === null ? "N/R" : String.fromCharCode(65 + a)).join(",")
+    nombre:nombre.value,
+    matricula:matricula.value,
+    puntaje:aciertos,
+    total:questions.length
   };
 }
 
-function sendToSheets() {
-  const btn = document.getElementById("btnEnviar");
-  const enviando = document.getElementById("enviando");
-
-  btn.disabled = true;
-  enviando.style.display = "block";
-  btn.textContent = "Enviando...";
-
-  const payload = JSON.stringify(window.examResults);
-
-  fetch(SCRIPT_URL, {
-    method: "POST",
-    body: new URLSearchParams({ data: payload }),
-    headers: { "Content-Type": "application/x-www-form-urlencoded" }
+function sendToSheets(){
+  fetch(SCRIPT_URL,{
+    method:"POST",
+    body:new URLSearchParams({data:JSON.stringify(window.examResults)})
   })
-  .then(response => response.text())
-  .then(text => {
-    alert("Resultados enviados correctamente:\n" + text);
-    btn.disabled = false;
-    enviando.style.display = "none";
-    btn.textContent = "ENVIAR RESULTADOS A GOOGLE SHEETS";
-  })
-  .catch(error => {
-    alert("Error al enviar los resultados:\n" + error.message);
-    btn.disabled = false;
-    enviando.style.display = "none";
-    btn.textContent = "ENVIAR RESULTADOS A GOOGLE SHEETS";
-  });
+  .then(r=>r.text())
+  .then(t=>alert("Resultados enviados ✅"))
+  .catch(e=>alert("Error al enviar ❌"));
 }
 </script>
+
 </body>
 </html>
