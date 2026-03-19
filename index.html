@@ -97,16 +97,55 @@ const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzZZQmei7Ae4uEEbLw9k
    PREGUNTAS (48)
 ===================================================== */
 const questions = [
-  {q:"2+3=",options:["4","5","6","7"],correct:1,feedback:"2+3=5"},
-  {q:"5×4=",options:["10","15","20","25"],correct:2,feedback:"5×4=20"},
-  {q:"10−7=",options:["1","2","3","4"],correct:2,feedback:"10−7=3"},
-  {q:"8÷2=",options:["2","3","4","5"],correct:2,feedback:"8÷2=4"},
-  {q:"√16=",options:["2","3","4","5"],correct:2,feedback:"√16=4"},
-  {q:"x+5=10, x=",options:["3","4","5","6"],correct:2,feedback:"x=5"},
-  {q:"Área de cuadrado lado 4",options:["8","12","16","20"],correct:2,feedback:"4×4"},
-  {q:"Perímetro triángulo equilátero lado 6",options:["12","18","24","36"],correct:1,feedback:"3×6"},
-  {q:"2³=",options:["4","6","8","9"],correct:2,feedback:"2×2×2"},
-  {q:"5²=",options:["10","20","25","30"],correct:2,feedback:"5×5"},
+  
+{q:"Simplifica: (3x²+5x-2)+(2x²-3x+4)",options:["5x²+2x+2","5x²+8x+2","x²+2x+2","5x²+2x-6"],correct:0,feedback:"Se suman términos semejantes: 3x²+2x²=5x², 5x-3x=2x, -2+4=2."},
+{q:"Factoriza: x²-9",options:["(x-9)(x+1)","(x-3)(x+3)","(x-1)(x-9)","No se factoriza"],correct:1,feedback:"Es una diferencia de cuadrados: a²-b²=(a-b)(a+b)."},
+{q:"Resuelve: 2x+5=15",options:["x=5","x=10","x=7.5","x=0"],correct:0,feedback:"2x=10 → x=5."},
+{q:"Pendiente de la recta y=3x-4",options:["-4","3","1/3","4"],correct:1,feedback:"La pendiente es el coeficiente de x."},
+{q:"Área de un triángulo base 10 y altura 6",options:["30","60","16","20"],correct:0,feedback:"A=(b·h)/2=(10·6)/2=30."},
+
+/* ======= ARITMÉTICA Y ÁLGEBRA ======= */
+{q:"(5²)³ es igual a:",options:["5⁵","5⁶","25³","125"],correct:1,feedback:"(a^m)^n=a^(m·n)=5⁶."},
+{q:"Resuelve: x/4=6",options:["x=10","x=24","x=2","x=6"],correct:1,feedback:"Multiplica ambos lados por 4."},
+{q:"Valor de √144",options:["10","11","12","14"],correct:2,feedback:"12²=144."},
+{q:"Si 3x=18, x vale:",options:["5","6","9","3"],correct:1,feedback:"Divide entre 3."},
+{q:"Simplifica: 2(x+3)",options:["2x+3","x+6","2x+6","6x"],correct:2,feedback:"Propiedad distributiva."},
+
+/* ======= FUNCIONES ======= */
+{q:"Dominio de f(x)=1/x",options:["Todos los reales","x≠0","x>0","x<0"],correct:1,feedback:"No se puede dividir entre cero."},
+{q:"f(x)=2x+1, f(3)=",options:["6","7","8","5"],correct:1,feedback:"2(3)+1=7."},
+{q:"Gráfica de y=x² es:",options:["Recta","Parábola","Círculo","Hipérbola"],correct:1,feedback:"Las funciones cuadráticas generan parábolas."},
+{q:"Raíz de x²=16",options:["4","-4","±4","0"],correct:2,feedback:"Existen dos soluciones."},
+{q:"Si f(x)=x-5, f(x)=0 cuando x=",options:["-5","5","0","1"],correct:1,feedback:"x-5=0 → x=5."},
+
+/* ======= GEOMETRÍA ======= */
+{q:"Suma de ángulos internos de un triángulo",options:["90°","180°","270°","360°"],correct:1,feedback:"Propiedad básica del triángulo."},
+{q:"Perímetro de un cuadrado de lado 4",options:["8","12","16","20"],correct:2,feedback:"P=4·lado."},
+{q:"Área de un círculo radio 3 (π≈3.14)",options:["9.42","18.84","28.26","6.28"],correct:2,feedback:"A=πr²."},
+{q:"Hipotenusa es el lado:",options:["Menor","Mayor","Igual","Ninguno"],correct:1,feedback:"Es el lado opuesto al ángulo recto."},
+{q:"Volumen de un cubo lado 2",options:["4","6","8","12"],correct:2,feedback:"V=l³."},
+
+/* ======= PROBABILIDAD Y ESTADÍSTICA ======= */
+{q:"Media de 2,4,6",options:["4","6","3","5"],correct:0,feedback:"(2+4+6)/3=4."},
+{q:"Moda de 1,2,2,3",options:["1","2","3","No hay"],correct:1,feedback:"Es el valor que más se repite."},
+{q:"Probabilidad de cara en una moneda",options:["1","1/2","1/3","0"],correct:1,feedback:"Dos resultados posibles."},
+{q:"Rango de 2,5,9",options:["7","5","9","3"],correct:0,feedback:"Máximo - mínimo."},
+{q:"Mediana de 3,7,9",options:["7","9","3","6"],correct:0,feedback:"Valor central."},
+
+/* ======= SISTEMAS Y ECUACIONES ======= */
+{q:"x+y=5, x=2, y=",options:["3","2","5","7"],correct:0,feedback:"Sustitución directa."},
+{q:"2x=10",options:["x=2","x=10","x=5","x=20"],correct:2,feedback:"Divide entre 2."},
+{q:"Solución de x²=0",options:["0","1","-1","2"],correct:0,feedback:"Única raíz."},
+{q:"Si y=mx+b, b es:",options:["Pendiente","Ordenada","Intersección en y","Corte en x"],correct:2,feedback:"Valor donde corta al eje y."},
+{q:"Resuelve: x-7=0",options:["7","-7","0","1"],correct:0,feedback:"Suma 7 a ambos lados."},
+
+/* ======= ÚLTIMAS ======= */
+{q:"√81=",options:["7","8","9","6"],correct:2,feedback:"9²=81."},
+{q:"5!= ",options:["120","60","24","5"],correct:0,feedback:"5·4·3·2·1."},
+{q:"2³=",options:["6","8","9","4"],correct:1,feedback:"2·2·2."},
+{q:"x²≥0 para:",options:["x>0","x<0","Todo x real","x≠0"],correct:2,feedback:"El cuadrado nunca es negativo."},
+{q:"π es:",options:["Racional","Entero","Irracional","Natural"],correct:2,feedback:"Tiene decimales infinitos no periódicos."}
+];
 
   /* DUPLICA PATRÓN HASTA 48 (NO FALLA POR CANTIDAD) */
 ];
