@@ -117,11 +117,257 @@ const questions = [
 {q:"Teorema que relaciona catetos e hipotenusa",options:["Pitágoras","Tales","Euclides","Gauss"],correct:0,feedback:"a²+b²=c²."},
 {q:"Volumen de un prisma rectangular 2×3×5",options:["10","30","20","15"],correct:1,feedback:"V=l·a·h."},
 
+  
 {q:"Media de 4,6,10",options:["6","7","8","10"],correct:1,feedback:"(4+6+10)/3."},
 {q:"Moda de 3,5,5,7",options:["3","5","7","No hay"],correct:1,feedback:"Es el valor más repetido."},
 {q:"Probabilidad de obtener águila en una moneda",options:["1","1/2","1/3","0"],correct:1,feedback:"Dos resultados posibles."},
 {q:"Rango del conjunto 2,9,4,7",options:["5","7","9","4"],correct:1,feedback:"Máximo - mínimo."},
 {q:"Mediana de 2,4,6,8",options:["4","5","6","7"],correct:1,feedback:"Promedio de los dos centrales."},
+  {
+  q:"¿Cuál es la ecuación de la circunferencia con centro en (3,−2) y radio 5?",
+  options:[
+    "(x−3)²+(y+2)²=25",
+    "(x+3)²+(y−2)²=25",
+    "(x−3)²+(y−2)²=5",
+    "x²+y²−3x+2y=25"
+  ],
+  correct:0,
+  feedback:"La forma estándar es (x−h)²+(y−k)²=r²."
+},
+{
+  q:"Dada la ecuación x²+y²−6x+4y−12=0, ¿cuál es el centro de la circunferencia?",
+  options:[
+    "(−3,2)",
+    "(3,−2)",
+    "(6,−4)",
+    "(−6,4)"
+  ],
+  correct:1,
+  feedback:"Al completar cuadrados se obtiene centro (3,−2)."
+},
+{
+  q:"La ecuación (x+4)²+(y−5)²=36 tiene radio:",
+  options:["3","6","9","12"],
+  correct:1,
+  feedback:"El radio es la raíz de 36."
+},
+{
+  q:"El punto P(5,3) respecto a la circunferencia x²+y²−4x−6y−12=0 está:",
+  options:[
+    "Sobre la circunferencia",
+    "Fuera de la circunferencia",
+    "Dentro de la circunferencia",
+    "No se puede determinar"
+  ],
+  correct:2,
+  feedback:"La distancia del punto al centro es menor que el radio."
+},
+{
+  q:"Las circunferencias C₁:(x−4)²+(y−1)²=25 y C₂:(x−2)²+(y+3)²=25 son:",
+  options:[
+    "Tangentes",
+    "Concéntricas",
+    "Secantes",
+    "Exteriores"
+  ],
+  correct:2,
+  feedback:"La distancia entre centros es menor que la suma de los radios."
+},
+{
+  q:"¿Cuál es la ecuación de la parábola con vértice en el origen que pasa por (4,8)?",
+  options:[
+    "y=2x²",
+    "y=x²/2",
+    "y=4x²",
+    "y=x²"
+  ],
+  correct:1,
+  feedback:"Sustituyendo el punto se obtiene a=1/2."
+},
+{
+  q:"La ecuación y²=12x representa una parábola con foco en:",
+  options:[
+    "(3,0)",
+    "(0,3)",
+    "(6,0)",
+    "(0,6)"
+  ],
+  correct:0,
+  feedback:"En y²=4px se tiene p=3."
+},
+{
+  q:"La parábola y=−(x−2)²−3 tiene vértice en:",
+  options:[
+    "(−2,3)",
+    "(2,−3)",
+    "(−2,−3)",
+    "(3,−2)"
+  ],
+  correct:1,
+  feedback:"Está en forma vértice y=a(x−h)²+k."
+},
+{
+  q:"La parábola x²=16y tiene parámetro p igual a:",
+  options:["2","4","8","16"],
+  correct:1,
+  feedback:"Comparando con x²=4py se obtiene p=4."
+},
+{
+  q:"Si una parábola es tangente a la recta y=4x+k, entonces el valor de k es:",
+  options:[
+    "4",
+    "−4",
+    "2",
+    "−2"
+  ],
+  correct:1,
+  feedback:"Para tangencia, el discriminante debe ser cero."
+},
+{
+  q:"La ecuación x²+4y²−8x+16y−16=0 representa una:",
+  options:[
+    "Circunferencia",
+    "Parábola",
+    "Elipse",
+    "Hipérbola"
+  ],
+  correct:2,
+  feedback:"El discriminante es negativo y A≠C."
+},
+{
+  q:"La ecuación 9x²+4y²−18x+16y−11=0 es una:",
+  options:[
+    "Circunferencia",
+    "Elipse",
+    "Hipérbola",
+    "Parábola"
+  ],
+  correct:1,
+  feedback:"Ambos términos cuadráticos tienen el mismo signo."
+},
+{
+  q:"La ecuación 4x²−9y²+16x+18y−29=0 representa una:",
+  options:[
+    "Elipse",
+    "Parábola",
+    "Hipérbola",
+    "Circunferencia"
+  ],
+  correct:2,
+  feedback:"Los términos x² y y² tienen signos opuestos."
+},
+{
+  q:"La ecuación (x−y−2)²=0 representa:",
+  options:[
+    "Una parábola",
+    "Dos rectas secantes",
+    "Una recta doble",
+    "Una hipérbola"
+  ],
+  correct:2,
+  feedback:"Es una cónica degenerada: recta doble."
+},
+{
+  q:"Si B²−4AC=0, la cónica es:",
+  options:[
+    "Elipse",
+    "Circunferencia",
+    "Parábola",
+    "Hipérbola"
+  ],
+  correct:2,
+  feedback:"Condición característica de la parábola."
+},
+{
+  q:"Determina el dominio de la función f(x) = √(4 − x²)",
+  options:["x ≥ 0","−2 ≤ x ≤ 2","x ≤ −2","x ≥ 2"],
+  correct:1,
+  feedback:"Para que exista la raíz, 4 − x² ≥ 0 ⇒ −2 ≤ x ≤ 2."
+},
+{
+  q:"Sean f(x)=2x+3 y g(x)=x²−1. ¿Cuál es (f+g)(x)?",
+  options:["2x²+2x+2","x²+2x+2","x²+3x+2","2x²+3x+2"],
+  correct:1,
+  feedback:"(f+g)(x)=2x+3+x²−1=x²+2x+2."
+},
+{
+  q:"La función f(x)=x⁴−3x²+5 es:",
+  options:["Impar","Par","Ni par ni impar","Periódica"],
+  correct:1,
+  feedback:"Todos los exponentes son pares, por lo que f(−x)=f(x)."
+},
+{
+  q:"La inversa de f(x)=5x−2 es:",
+  options:["(x−2)/5","5x+2","(x+2)/5","1/(5x−2)"],
+  correct:2,
+  feedback:"Intercambiando x y y: x=5y−2 ⇒ y=(x+2)/5."
+},
+{
+  q:"Si P(t)=500·2^(t/4), ¿cuántas bacterias hay después de 20 h?",
+  options:["8 000","16 000","32 000","64 000"],
+  correct:1,
+  feedback:"P(20)=500·2⁵=500·32=16 000."
+},
+{
+  q:"Usando definición, f(x)=x²+3x. ¿Cuánto vale f′(1)?",
+  options:["3","4","5","6"],
+  correct:2,
+  feedback:"Por definición o regla: f′(x)=2x+3 ⇒ f′(1)=5."
+},
+{
+  q:"La derivada de f(x)=5x⁴−3x²+7 es:",
+  options:["20x³−6x","5x³−6x","20x³−3x","20x⁴−6x"],
+  correct:0,
+  feedback:"Derivando término a término: 20x³−6x."
+},
+{
+  q:"La ecuación de la recta tangente a y=x³−6x+2 en x=1 es:",
+  options:["y=−3x","y=3x","y=−3x+3","y=3x−3"],
+  correct:0,
+  feedback:"Pendiente f′(1)=−3 y pasa por (1,−3), queda y=−3x."
+},
+{
+  q:"Si s(t)=t³−9t²+24t, ¿cuándo la velocidad es cero?",
+  options:["t=1 y t=3","t=2 y t=4","t=0 y t=3","t=1 y t=4"],
+  correct:1,
+  feedback:"v(t)=3t²−18t+24=0 ⇒ (t−2)(t−4)=0."
+},
+{
+  q:"La función f(x)=x²·sin(1/x) con f(0)=0 es:",
+  options:["Discontinua","No derivable","Continua y derivable","Solo continua"],
+  correct:2,
+  feedback:"Por compresión, es continua y derivable en x=0."
+},
+  {
+  q:"La integral ∫(5x⁴−3x²+7) dx es:",
+  options:["x⁵−x³+7x+C","5x⁵−3x³+7x+C","x⁵−x³+7x","x⁴−x²+7"],
+  correct:0,
+  feedback:"Se aplica la regla de potencia a cada término."
+},
+{
+  q:"El valor de ∫₋₁² (3x²−4x+1) dx es:",
+  options:["4","5","6","7"],
+  correct:2,
+  feedback:"Evaluando la primitiva F(x)=x³−2x²+x se obtiene 6."
+},
+{
+  q:"Según el Teorema Fundamental, si F(x)=∫₁ˣ(t²+3t−2)dt entonces F′(x)=",
+  options:["x²+3x−2","2x+3","x²","3x−2"],
+  correct:0,
+  feedback:"La derivada de una integral definida es el integrando."
+},
+{
+  q:"El área bajo la curva y=x² de 0 a 3 es:",
+  options:["6","9","12","18"],
+  correct:1,
+  feedback:"∫₀³ x² dx = [x³/3]₀³ = 9."
+},
+{
+  q:"La integral impropia ∫₁^∞ 1/x² dx:",
+  options:["Diverge","Converge a 0","Converge a 1","Converge a ∞"],
+  correct:2,
+  feedback:"∫₁^∞ x⁻² dx = 1, por lo que converge."
+},
 
 {q:"Sistema: x+y=10, x=4. y=",options:["4","6","10","14"],correct:1,feedback:"Sustitución directa."},
 {q:"2x-4=0",options:["2","4","0","-2"],correct:0,feedback:"2x=4."},
